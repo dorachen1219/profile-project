@@ -65,3 +65,22 @@ PUT /api/profile
 
 ```bash
 docker compose up -d
+
+## 系統架構設計
+
+```mermaid
+flowchart LR
+    A[使用者瀏覽器] --> B[前端網頁<br/>HTML / CSS / JavaScript]
+    B -->|HTTP API| C[Flask Backend<br/>Port 5000]
+    C -->|讀取 / 修改資料| D[(MongoDB<br/>NoSQL Database)]
+
+    subgraph E[Ubuntu Server VM]
+        subgraph F[Docker Environment]
+            C
+            D
+        end
+    end
+
+    G[Git / GitHub] -.版本控制.-> B
+    G -.版本控制.-> C
+```
