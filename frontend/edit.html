@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入與修改個人資料</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 6px;
+            background: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        .back {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>修改個人資料</h1>
+
+    <label>姓名</label>
+    <input id="name" type="text">
+
+    <label>學號</label>
+    <input id="studentId" type="text">
+
+    <label>系所</label>
+    <input id="department" type="text">
+
+    <label>電子郵件</label>
+    <input id="email" type="email">
+
+    <label>關於我</label>
+    <textarea id="about"></textarea>
+
+    <button onclick="updateProfile()">更新資料</button>
+
+    <p id="message"></p>
+
+    <a class="back" href="index.html">返回個人資料頁</a>
+</div>
+
+<script>
+const API_URL = 'http://127.0.0.1:5000/api/profile';
+
+fetch(API_URL)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('name').value = data.name || '';
+        document.getElementById('studentId').value = data.studentId || '';
+        document.getElementById('department').value = data.department || '';
+        document.getElementById('email').value = data.email || '';
+        document.getElementById('about').value = data.about || '';
+    })
+    .catch(error => {
+        document.getElementById('message').textContent = '讀取資料失敗';
+        console.error(error);
+    });
+
+function updateProfile() {
+    const profile = {
+        name: document.getElementById('name').value,
+        studentId: document.getElementById('studentId').value,
+        department: document.getElementById('department').value,
+        email: document.getElementById('email').value,
+        about: document.getElementById('about').value
+    };
+
+    fetch(API_URL, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(profile)
+    })
+    .then(response => response.json())
+    .then(() => {
+        document.getElementById('message').textContent = '資料更新成功！';
+    })
+    .catch(error => {
+        document.getElementById('message').textContent = '更新失敗';
+        console.error(error);
+    });
+}
+</script>
+
+</body>
+</html>

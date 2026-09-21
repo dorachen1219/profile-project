@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>編輯個人資料</title>
+    <title>個人資料</title>
 
     <style>
         body {
@@ -23,45 +23,33 @@
         }
 
         h1 {
-            margin-top: 0;
-            margin-bottom: 30px;
+            text-align: center;
         }
 
-        label {
-            display: block;
-            margin-top: 18px;
-            margin-bottom: 8px;
+        .profile-item {
+            margin: 20px 0;
+        }
+
+        .label {
             font-weight: bold;
         }
 
-        input, textarea {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px;
-            border: 1px solid #cccccc;
-            border-radius: 6px;
-            font-size: 16px;
+        .value {
+            margin-top: 5px;
+            padding: 10px;
+            background-color: #f3f3f3;
+            border-radius: 5px;
         }
 
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 25px;
+        .edit-button {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
             padding: 12px;
-            border: none;
-            border-radius: 6px;
-            background-color: #333333;
+            background-color: #333;
             color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #555555;
+            text-decoration: none;
+            border-radius: 6px;
         }
     </style>
 </head>
@@ -70,40 +58,50 @@
 
 <div class="container">
 
-    <h1>編輯個人資料</h1>
+    <h1>個人資料</h1>
 
-    <label>姓名</label>
-    <input id="name" type="text">
+    <div class="profile-item">
+        <div class="label">姓名</div>
+        <div class="value" id="name">讀取中...</div>
+    </div>
 
-    <label>學號</label>
-    <input id="studentId" type="text" placeholder="請輸入學號">
+    <div class="profile-item">
+        <div class="label">學號</div>
+        <div class="value" id="studentId">讀取中...</div>
+    </div>
 
-    <label>科系</label>
-    <input id="department" type="text">
+    <div class="profile-item">
+        <div class="label">系所</div>
+        <div class="value" id="department">讀取中...</div>
+    </div>
 
-    <label>電子郵件</label>
-    <input id="email" type="email" placeholder="請輸入電子郵件">
+    <div class="profile-item">
+        <div class="label">電子郵件</div>
+        <div class="value" id="email">讀取中...</div>
+    </div>
 
-    <label>關於我</label>
-    <textarea id="about">歡迎來到我的個人資料頁面。</textarea>
+    <div class="profile-item">
+        <div class="label">關於我</div>
+        <div class="value" id="about">讀取中...</div>
+    </div>
 
-    <button type="button">更新</button>
+    <a class="edit-button" href="edit.html">修改個人資料</a>
 
 </div>
 
 <script>
-    fetch('http://127.0.0.1:5000/api/profile')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('name').value = data.name;
-            document.getElementById('studentId').value = data.studentId;
-            document.getElementById('department').value = data.department;
-            document.getElementById('email').value = data.email;
-            document.getElementById('about').value = data.about;
-        })
-        .catch(error => {
-            console.error('讀取資料失敗：', error);
-        });
+fetch('http://127.0.0.1:5000/api/profile')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('name').textContent = data.name;
+        document.getElementById('studentId').textContent = data.studentId;
+        document.getElementById('department').textContent = data.department;
+        document.getElementById('email').textContent = data.email;
+        document.getElementById('about').textContent = data.about;
+    })
+    .catch(error => {
+        console.error('讀取資料失敗：', error);
+    });
 </script>
 
 </body>
