@@ -65,6 +65,7 @@ PUT /api/profile
 
 ```bash
 docker compose up -d
+```
 
 ## 系統架構設計
 
