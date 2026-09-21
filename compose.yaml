@@ -1,0 +1,19 @@
+services:
+  mongodb:
+    image: mongo:8.2
+    container_name: profile-mongodb
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: profile-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:
